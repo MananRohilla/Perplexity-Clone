@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:web_socket_client/web_socket_client.dart';
+import 'package:flutter/foundation.dart' show kIsWeb; //Added to fix search buffering issue 
 
 class ChatWebService {
   static final _instance = ChatWebService._internal();

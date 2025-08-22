@@ -1,5 +1,6 @@
 import asyncio
 from fastapi import FastAPI, WebSocket
+from config import settings   # imports the instance created in server/config.py
 
 from pydantic_models.chat_body import ChatBody
 from services.llm_service import LLMService
