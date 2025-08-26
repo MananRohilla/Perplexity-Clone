@@ -2,7 +2,7 @@ from config import Settings
 from tavily import TavilyClient
 import trafilatura
 
-settings = Settings()
+settings = Settings() 
 tavily_client = TavilyClient(api_key=settings.TAVILY_API_KEY)
 
 

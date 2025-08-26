@@ -5,5 +5,7 @@ load_dotenv()
 
 
 class Settings(BaseSettings):
-    TAVILY_API_KEY: str = "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" # set the API key here on my own 
-    GEMINI_API_KEY: str = "AIzaSyAKUhdPtSfPfCVjttqFfuitE83PKa6Nbqo"
+    TAVILY_API_KEY: str = "" # set the API key blank so that there is a default null value
+    GEMINI_API_KEY: str = "" # set the API key blank so that there is a default null value
+
+settings = Settings()
