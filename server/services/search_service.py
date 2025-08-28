@@ -1,4 +1,4 @@
-from ..config import settings
+from config import settings
 import requests
 from bs4 import BeautifulSoup
 
@@ -10,12 +10,6 @@ except ImportError:
     TAVILY_AVAILABLE = False
     tavily_client = None
 
-try:
-    import trafilatura
-    TRAFILATURA_AVAILABLE = True
-except ImportError:
-    TRAFILATURA_AVAILABLE = False
-
 class SearchService:
     def web_search(self, query: str):
         if not TAVILY_AVAILABLE:
@@ -26,23 +20,13 @@ class SearchService:
             response = tavily_client.search(query, max_results=10)
             
             for result in response.get("results", []):
-                # Try to extract content
-                content = ""
-                url = result.get("url", "")
-                
-                if TRAFILATURA_AVAILABLE:
-                    try:
-                        downloaded = trafilatura.fetch_url(url)
-                        content = trafilatura.extract(downloaded, include_comments=False)
-                    except:
-                        content = self._simple_extract(url)
-                else:
-                    content = self._simple_extract(url)
+                # Use simple extraction instead of trafilatura
+                content = self._simple_extract(result.get("url", ""))
                 
                 results.append({
                     "title": result.get("title", ""),
-                    "url": url,
-                    "content": content or result.get("content", "")[:500]  # Fallback to tavily content
+                    "url": result.get("url", ""),
+                    "content": content or result.get("content", "")[:500]
                 })
             return results
         except Exception as e:
@@ -68,7 +52,7 @@ class SearchService:
             chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
             text = ' '.join(chunk for chunk in chunks if chunk)
             
-            return text[:1000]  # First 1000 characters
+            return text[:1000]
         except Exception as e:
             print(f"Extract error for {url}: {e}")
             return ""

@@ -5,18 +5,18 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.responses import JSONResponse
 
-from .config import settings
-from .pydantic_models.chat_body import ChatBody
-from .services.llm_service import LLMService
-from .services.sort_source_service import SortSourceService
-from .services.search_service import SearchService
+from config import settings  # Remove the dot
+from pydantic_models.chat_body import ChatBody  # Remove the dot
+from services.llm_service import LLMService  # Remove the dot
+from services.sort_source_service import SortSourceService  # Remove the dot
+from services.search_service import SearchService  # Remove the dot
 
 app = FastAPI(title="Perplexity-Clone Backend", version="1.0.0")
 
 # Allow your web clients 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://perplexity-clone-cyan.vercel.app/"],  
+    allow_origins=["https://perplexity-clone-cyan.vercel.app", "*"],  # Added * for testing
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -25,6 +25,10 @@ app.add_middleware(
 search_service = SearchService()
 sort_source_service = SortSourceService()
 llm_service = LLMService()
+
+@app.get("/")
+def root():
+    return {"message": "Perplexity Clone Backend", "endpoints": ["/healthz", "/chat", "/ws/chat"]}
 
 @app.get("/healthz")
 def healthz():
@@ -60,7 +64,7 @@ async def _stream_llm_chunks(websocket: WebSocket, query: str, sources: list[dic
 async def websocket_chat_endpoint(websocket: WebSocket):
     await websocket.accept()
     try:
-        # Expect messages of the form: {"query": "..."}
+        # Expect messages of the form: {"query": "...}
         while True:
             try:
                 data = await asyncio.wait_for(websocket.receive_json(), timeout=60)

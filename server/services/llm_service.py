@@ -1,5 +1,5 @@
 import google.generativeai as genai
-from ..config import settings  # <- relative import
+from config import settings  # <- relative import
 
 class LLMService:
     def __init__(self):
