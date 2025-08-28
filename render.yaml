@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: perplexity-clone-backend
+    env: python
+    buildCommand: |
+      cd server
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
+    startCommand: |
+      cd server
+      uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.6
+      - key: TAVILY_API_KEY
+        fromSecret: TAVILY_API_KEY
+      - key: GEMINI_API_KEY
+        fromSecret: GEMINI_API_KEY
