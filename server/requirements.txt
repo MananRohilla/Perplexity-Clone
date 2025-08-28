@@ -6,12 +6,12 @@ python-dotenv==1.0.0
 httpx==0.25.2
 
 # Search & scraping
-tavily-python==0.3.3
+# tavily-python==0.3.3
 requests==2.31.0
 beautifulsoup4==4.12.2
 # trafilatura==1.6.4
 
-lxml==5.0.0 
+# lxml==5.0.0 
 
 
 # ML/AI (if need them)
