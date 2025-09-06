@@ -16,7 +16,7 @@ beautifulsoup4==4.12.2
 
 
 # ML/AI (if need them)
-# google-generativeai==0.3.2
+google-generativeai==0.3.2
 
 # CORS support
 python-multipart==0.0.6
