@@ -17,3 +17,7 @@ google-generativeai==0.3.2
 
 # CORS support
 python-multipart==0.0.6
+
+websockets==12.0
+wsproto==1.2.0
+uvicorn[standard]
