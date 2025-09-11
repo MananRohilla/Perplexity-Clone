@@ -38,7 +38,7 @@ class ChatWebService {
   String get websocketUrl {
     const renderUrl = String.fromEnvironment(
       'WS_RENDER_URL',
-      defaultValue: 'https://perplexity-clone-rrjo.onrender.com',
+      defaultValue: 'wss://perplexity-clone-rrjo.onrender.com/ws/chat',
     );
     const localUrl = 'ws://localhost:8000/ws/chat';
 
