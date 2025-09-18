@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:perplexity_clone/services/chat_web_service.dart';
 import 'package:perplexity_clone/theme/colors.dart';
@@ -12,6 +13,7 @@ class SourcesSection extends StatefulWidget {
 
 class _SourcesSectionState extends State<SourcesSection> {
   bool isLoading = true;
+  late StreamSubscription _searchResultSubscription;
   List searchResults = [
     {
       'title': 'Ind vs Aus Live Score 4th Test',
@@ -33,12 +35,20 @@ class _SourcesSectionState extends State<SourcesSection> {
   @override
   void initState() {
     super.initState();
-    ChatWebService().searchResultStream.listen((data) {
-      setState(() {
-        searchResults = data['data'];
-        isLoading = false;
-      });
+    _searchResultSubscription = ChatWebService().searchResultStream.listen((data) {
+      if (mounted) {  // Check if widget is still mounted before calling setState
+        setState(() {
+          searchResults = data['data'];
+          isLoading = false;
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _searchResultSubscription.cancel();  // Cancel subscription to prevent memory leaks
+    super.dispose();
   }
 
   @override
