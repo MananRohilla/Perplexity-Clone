@@ -17,7 +17,8 @@ app = FastAPI(title="Perplexity-Clone Backend", version="1.0.0")
 # Configure CORS for production
 origins = [
     "https://perplexity-clone-rrjo.onrender.com",
-    "https://*.vercel.app",
+    "https://*.vercel.app"
+    "https://perplexity-clone-cyan.vercel.app/",
     "http://localhost:3000",
     "http://localhost:8080",
     "http://localhost:5173",

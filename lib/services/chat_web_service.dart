@@ -41,10 +41,13 @@ class ChatWebService {
       defaultValue: 'wss://perplexity-clone-rrjo.onrender.com/ws/chat',
     );
     const localUrl = 'ws://localhost:8000/ws/chat';
-
-    return kDebugMode ? localUrl : renderUrl;
+ 
+ // ✅ Prefer Render by default
+  return bool.fromEnvironment('USE_LOCALHOST', defaultValue: false)
+      ? localUrl
+      : renderUrl;
   }
-
+      
   bool get isConnected => _connected;
 
   /// Connect to the WebSocket server.
