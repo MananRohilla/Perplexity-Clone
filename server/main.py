@@ -203,3 +203,31 @@ async def chat_endpoint(body: ChatBody):
             status_code=500,
             content={"detail": str(e)}
         )
+
+@app.get("/debug/env")
+def debug_env():
+    """Debug endpoint to check environment variables"""
+    return {
+        "tavily_key_present": bool(settings.TAVILY_API_KEY and settings.TAVILY_API_KEY.strip()),
+        "gemini_key_present": bool(settings.GEMINI_API_KEY and settings.GEMINI_API_KEY.strip()),
+        "tavily_key_length": len(settings.TAVILY_API_KEY) if settings.TAVILY_API_KEY else 0,
+        "gemini_key_length": len(settings.GEMINI_API_KEY) if settings.GEMINI_API_KEY else 0,
+        "render": os.getenv("RENDER", "not_set"),
+        "environment": os.getenv("ENVIRONMENT", "not_set")
+    }
+
+@app.get("/debug/search/{query}")
+async def debug_search(query: str):
+    """Debug endpoint to test search functionality"""
+    try:
+        sources = await _search_and_rank(query)
+        return {
+            "query": query,
+            "sources_count": len(sources),
+            "sources": sources[:2]  # Return first 2 sources for debugging
+        }
+    except Exception as e:
+        return {
+            "error": str(e),
+            "query": query
+        }
