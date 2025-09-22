@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:web_socket_channel/status.dart' as status;
 
-/// A production-grade WebSocket service for chat communication.
 class ChatWebService {
   static final ChatWebService _instance = ChatWebService._internal();
   factory ChatWebService() => _instance;
@@ -18,7 +17,6 @@ class ChatWebService {
   bool _disposed = false;
   bool _connected = false;
 
-  // Message queue for offline/reconnect scenarios (max 50 messages).
   final List<String> _messageQueue = [];
   static const int _maxQueueSize = 50;
 

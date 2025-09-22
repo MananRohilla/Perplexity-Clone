@@ -68,7 +68,6 @@ def healthz():
     }
     return health_status
 
-# ---- Utilities ----
 async def _search_and_rank(query: str) -> list[dict]:
     if not search_service or not sort_source_service:
         return [{
